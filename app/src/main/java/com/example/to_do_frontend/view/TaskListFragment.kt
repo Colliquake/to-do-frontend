@@ -7,8 +7,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.to_do_frontend.databinding.FragmentTaskListBinding
 import com.example.to_do_frontend.model.TaskModel
+import com.example.to_do_frontend.view.adapter.TaskListAdapter
 import com.example.to_do_frontend.viewmodel.TaskListViewModel
 
 class TaskListFragment : Fragment() {
@@ -19,13 +22,22 @@ class TaskListFragment : Fragment() {
         ViewModelProvider(this).get(TaskListViewModel::class.java)
     }
     
+    private var tasksList: ArrayList<TaskModel> = arrayListOf<TaskModel>(TaskModel(
+        _id = "_id",
+        id = "id",
+        taskDescription = "taskDesc",
+        createdDate = "date",
+        dueDate = "due date",
+        completed = false
+    ))
+    
+    private lateinit var recyclerView: RecyclerView
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         
         val tasksObserver = Observer<ArrayList<TaskModel>> {newTasks ->
-            if(newTasks.size != 0){
-                binding.mainTextView.text = newTasks[0].id
-            }
+            tasksList = newTasks
         }
         viewModel.tasksLiveData.observe(this, tasksObserver)
     }
@@ -44,9 +56,9 @@ class TaskListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        binding.changeTextButton.setOnClickListener {
-             viewModel.changeText()
-        }
+        recyclerView = binding.tasksListRecyclerView
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = TaskListAdapter(viewModel, viewLifecycleOwner)
     }
     
     override fun onDestroyView() {

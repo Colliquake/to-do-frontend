@@ -1,9 +1,10 @@
 package com.example.to_do_frontend.model.data
 
+import android.util.Log
 import com.example.to_do_frontend.model.Client
 import com.example.to_do_frontend.model.TaskModel
-import com.example.to_do_frontend.model.data.apicalls.GetCompleteTasks
-import com.example.to_do_frontend.model.data.apicalls.GetIncompleteTasks
+import io.ktor.client.call.body
+import io.ktor.client.request.get
 import kotlinx.coroutines.runBlocking
 
 class TaskDatasource(val androidId: String) {
@@ -15,15 +16,27 @@ class TaskDatasource(val androidId: String) {
     
     fun setTasksComplete(){
         runBlocking {
-            val GCTclass = GetCompleteTasks(httpClient!!)
-            tasks = GCTclass.execute()
+            val httpResponse = httpClient!!.get("http://192.168.1.249:3000/tasks?completed=true")
+            tasks = if(httpResponse.status.value == 200){
+                Log.v("trace", "get complete tasks")
+                httpResponse.body()
+            } else{
+                Log.e("trace", "get tasks returned status 400")
+                arrayListOf<TaskModel>()
+            }
         }
     }
     
     fun setTasksIncomplete(){
         runBlocking {
-            val GITclass = GetIncompleteTasks(httpClient!!)
-            tasks = GITclass.execute()
+            val httpResponse = httpClient!!.get("http://192.168.1.249:3000/tasks?completed=false")
+            tasks = if(httpResponse.status.value == 200){
+                Log.v("trace", "get incomplete tasks")
+                httpResponse.body()
+            } else{
+                Log.e("trace", "get tasks returned status 400")
+                arrayListOf<TaskModel>()
+            }
         }
     }
     

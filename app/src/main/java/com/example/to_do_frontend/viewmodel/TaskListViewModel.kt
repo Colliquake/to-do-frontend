@@ -25,8 +25,4 @@ class TaskListViewModel(private val taskData: TaskDatasource = TaskDatasource("a
         TaskDatasourceObject.setTasksIncomplete()
         _tasksLiveData.postValue(TaskDatasourceObject.getTasks())
     }
-    
-    fun changeText(){
-        getTasksComplete()
-    }
 }
