@@ -16,7 +16,7 @@ class TaskDatasource(val androidId: String) {
     
     fun setTasksComplete(){
         runBlocking {
-            val httpResponse = httpClient!!.get("http://192.168.1.249:3000/tasks?completed=true")
+            val httpResponse = httpClient!!.get("http://3.144.105.116:3000/tasks?completed=true&collectionName=${androidId}")
             tasks = if(httpResponse.status.value == 200){
                 Log.v("trace", "get complete tasks")
                 httpResponse.body()
@@ -29,7 +29,7 @@ class TaskDatasource(val androidId: String) {
     
     fun setTasksIncomplete(){
         runBlocking {
-            val httpResponse = httpClient!!.get("http://192.168.1.249:3000/tasks?completed=false")
+            val httpResponse = httpClient!!.get("http://3.144.105.116:3000/tasks?completed=false&collectionName=${androidId}")
             tasks = if(httpResponse.status.value == 200){
                 Log.v("trace", "get incomplete tasks")
                 httpResponse.body()

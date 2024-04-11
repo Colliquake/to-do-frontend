@@ -1,16 +1,21 @@
 package com.example.to_do_frontend.viewmodel
 
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.example.to_do_frontend.model.AndroidIdSingleton
 import com.example.to_do_frontend.model.TaskModel
 import com.example.to_do_frontend.model.data.TaskDatasource
 
-class TaskListViewModel(private val taskData: TaskDatasource = TaskDatasource("asdf")) : ViewModel() {
+class TaskListViewModel(application: Application) : AndroidViewModel(application) {
     private var _tasksLiveData = MutableLiveData<ArrayList<TaskModel>>()
     val tasksLiveData: LiveData<ArrayList<TaskModel>> get() = _tasksLiveData
     
-    val TaskDatasourceObject = TaskDatasource("asdf")
+    private val applicationContext = getApplication<Application>().applicationContext
+    val androidId = AndroidIdSingleton.getInstance(applicationContext).getAndroidId()
+//    val TaskDatasourceObject = TaskDatasource(androidId!!)
+    val TaskDatasourceObject = TaskDatasource("123456")
     
     init {
         getTasksIncomplete()

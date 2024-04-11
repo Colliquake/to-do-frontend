@@ -23,7 +23,6 @@ class TaskListAdapter(val newTasks: ArrayList<TaskModel>) :
         var task_delete_button = view.findViewById<ImageButton>(R.id.task_delete_button)
     }
     
-    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskListViewHolder {
         val layout =
             LayoutInflater.from(parent.context).inflate(R.layout.layout_task_list, parent, false)
