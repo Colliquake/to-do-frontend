@@ -6,33 +6,13 @@ import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.ImageButton
 import android.widget.TextView
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.RecyclerView
 import com.example.to_do_frontend.R
 import com.example.to_do_frontend.model.TaskModel
-import com.example.to_do_frontend.viewmodel.TaskListViewModel
 
-class TaskListAdapter(val viewModel: TaskListViewModel, val lifecycleOwner: LifecycleOwner) :
+
+class TaskListAdapter(val newTasks: ArrayList<TaskModel>) :
     RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>() {
-    
-    private var tasksList: ArrayList<TaskModel> = arrayListOf<TaskModel>(
-        TaskModel(
-            _id = "_id",
-            id = "id",
-            taskDescription = "taskDesc",
-            createdDate = "date",
-            dueDate = "due date",
-            completed = false
-        ),
-    )
-    
-    init {
-        val tasksObserver = Observer<ArrayList<TaskModel>> { newTasks ->
-            tasksList = newTasks
-        }
-        viewModel.tasksLiveData.observe(lifecycleOwner, tasksObserver)
-    }
     
     class TaskListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
         var task_edit_button = view.findViewById<ImageButton>(R.id.task_edit_button)
@@ -43,6 +23,7 @@ class TaskListAdapter(val viewModel: TaskListViewModel, val lifecycleOwner: Life
         var task_delete_button = view.findViewById<ImageButton>(R.id.task_delete_button)
     }
     
+    
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TaskListViewHolder {
         val layout =
             LayoutInflater.from(parent.context).inflate(R.layout.layout_task_list, parent, false)
@@ -50,11 +31,11 @@ class TaskListAdapter(val viewModel: TaskListViewModel, val lifecycleOwner: Life
     }
     
     override fun getItemCount(): Int {
-        return tasksList.size
+        return newTasks.size
     }
     
     override fun onBindViewHolder(holder: TaskListViewHolder, position: Int) {
-        val tasksItem = tasksList[position]
+        val tasksItem = newTasks[position]
         holder.task_description.text = tasksItem.taskDescription
         holder.task_due_date.text = tasksItem.dueDate
         holder.task_created_date.text = tasksItem.createdDate
