@@ -68,7 +68,9 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/task_delete_button"/>
+                app:layout_constraintEnd_toStartOf="@id/task_delete_button"
+                app:buttonTint="@color/black"/>
+
 
             <ImageButton
                 android:id="@+id/task_delete_button"
