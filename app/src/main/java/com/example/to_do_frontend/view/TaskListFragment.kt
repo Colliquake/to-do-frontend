@@ -7,7 +7,9 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.to_do_frontend.R
 import com.example.to_do_frontend.databinding.FragmentTaskListBinding
 import com.example.to_do_frontend.model.TaskModel
 import com.example.to_do_frontend.view.adapter.TaskListAdapter
@@ -54,6 +56,9 @@ class TaskListFragment : Fragment() {
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        binding.headerSettingsButton.setOnClickListener {view ->
+            view.findNavController().navigate(R.id.action_taskListFragment_to_settingsFragment)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
     
