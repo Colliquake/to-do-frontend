@@ -22,12 +22,12 @@ class TaskListViewModel(application: Application) : AndroidViewModel(application
     }
     
     private fun getTasksComplete(){
-        TaskDatasourceObject.setTasksComplete()
+        TaskDatasourceObject.getTasksComplete()
         _tasksLiveData.postValue(TaskDatasourceObject.getTasks())
     }
     
     private fun getTasksIncomplete(){
-        TaskDatasourceObject.setTasksIncomplete()
+        TaskDatasourceObject.getTasksIncomplete()
         _tasksLiveData.postValue(TaskDatasourceObject.getTasks())
     }
 }
