@@ -9,6 +9,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.to_do_frontend.R
 import com.example.to_do_frontend.model.TaskModel
+import java.time.Instant
 
 
 class TaskListAdapter(val newTasks: ArrayList<TaskModel>) :
@@ -35,8 +36,13 @@ class TaskListAdapter(val newTasks: ArrayList<TaskModel>) :
     
     override fun onBindViewHolder(holder: TaskListViewHolder, position: Int) {
         val tasksItem = newTasks[position]
+        
         holder.task_description.text = tasksItem.taskDescription
-        holder.task_due_date.text = tasksItem.dueDate
-        holder.task_created_date.text = tasksItem.createdDate
+        
+        val dueString = FormatDueDate(Instant.parse(tasksItem.dueDate))
+        holder.task_due_date.text = dueString
+        
+        val createdString = FormatCreatedDate(Instant.parse(tasksItem.createdDate))
+        holder.task_created_date.text = createdString
     }
 }
