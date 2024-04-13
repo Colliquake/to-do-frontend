@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/white"
-    tools:context=".view.SettingsFragment">
+    tools:context=".view.SettingsFragment"
+    android:padding="20dp">
 
     <TextView
         android:id="@+id/settings_header"
@@ -15,18 +16,15 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:text="Settings"
-        android:textColor="@color/black"
-        android:textSize="30dp"
-        android:gravity="center"
-        android:layout_marginTop="20dp"/>
+        android:textSize="30sp"
+        android:gravity="center"/>
 
     <TextView
         android:id="@+id/filters_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Filters"
-        android:textSize="17sp"
-        android:layout_marginTop="20dp"
+        style="@style/Text.App.SettingsCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/settings_header" />
 
@@ -61,8 +59,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sort By"
-        android:textSize="17sp"
-        android:textColor="@color/black"
+        style="@style/Text.App.SettingsCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/filters_radio_group" />
 
@@ -92,8 +89,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Sort Date Direction"
-        android:textColor="@color/black"
-        android:textSize="17sp"
+        style="@style/Text.App.SettingsCategory"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sort_by_radio_group" />
 
@@ -121,10 +117,7 @@
         android:id="@+id/save_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/black"
-        android:text="Save"
-        android:textSize="17sp"
-        app:cornerRadius="5dp"
+        style="@style/Button.App.SaveButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/sort_date_direction_radio_group" />
