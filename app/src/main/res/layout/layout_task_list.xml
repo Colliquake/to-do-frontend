@@ -35,6 +35,8 @@
                 app:layout_constraintStart_toEndOf="@id/task_edit_button"
                 app:layout_constraintEnd_toStartOf="@id/task_check_box"
                 app:layout_constraintTop_toTopOf="parent"
+                android:maxLines="1"
+                android:ellipsize="end"
                 android:text="Grocery Shopping"
                 android:textColor="@color/black"
                 android:textSize="17sp"
