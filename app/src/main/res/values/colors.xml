@@ -2,4 +2,6 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="shrine_pink_900">#FF880E4F</color>
+    <color name="shrine_pink_100">#FFFEDBD0</color>
 </resources>
