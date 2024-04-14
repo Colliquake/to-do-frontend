@@ -1,4 +1,4 @@
-package com.example.to_do_frontend.model.data
+package com.example.to_do_frontend.model
 
 import kotlinx.serialization.Serializable
 
