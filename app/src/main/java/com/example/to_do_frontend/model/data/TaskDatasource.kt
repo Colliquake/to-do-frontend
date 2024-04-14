@@ -2,7 +2,9 @@ package com.example.to_do_frontend.model.data
 
 import android.util.Log
 import com.example.to_do_frontend.model.Client
+import com.example.to_do_frontend.model.CreateTaskModel
 import com.example.to_do_frontend.model.TaskModel
+import com.example.to_do_frontend.model.TaskParameters
 import io.ktor.client.call.body
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
@@ -19,40 +21,28 @@ class TaskDatasource(val androidId: String) {
     private lateinit var tasks: ArrayList<TaskModel>
     private val serverAddress = "http://3.144.105.116:3000/"
     
-    //todo: query params
-    
-    fun getTasksComplete(){
-        runBlocking {
-//            val httpResponse = httpClient.get("http://3.144.105.116:3000/tasks?completed=true&collectionName=${androidId}")
-            val httpResponse = httpClient.get(serverAddress + "/tasks"){
-                url {
-                    parameters.append("completed", "true")
-                    parameters.append("collectionName", androidId)
-                }
-            }
-            tasks = if(httpResponse.status.value == 200){
-                Log.v("trace", "get complete tasks")
-                httpResponse.body()
-            } else{
-                Log.e("trace", "get tasks returned status 400")
-                arrayListOf<TaskModel>()
-            }
+    fun getTasksWithParams(params: TaskParameters){
+        val sortBy = if(params.sort_by == ""){
+            ""
+        } else {
+            params.sort_date_direction + params.sort_by
         }
-    }
-    
-    fun getTasksIncomplete(){
+        
         runBlocking {
             val httpResponse = httpClient.get(serverAddress + "/tasks"){
                 url {
-                    parameters.append("completed", "false")
                     parameters.append("collectionName", androidId)
+                    parameters.append("completed", params.filters)
+                    if(sortBy != ""){
+                        parameters.append("sort_by", sortBy)
+                    }
                 }
             }
             tasks = if(httpResponse.status.value == 200){
-                Log.v("trace", "get incomplete tasks")
+                Log.v("trace", "getTasksWithParams successful")
                 httpResponse.body()
             } else{
-                Log.e("trace", "get tasks returned status 400")
+                Log.e("trace", "getTasksWithParams returned status 400")
                 arrayListOf<TaskModel>()
             }
         }
@@ -129,11 +119,7 @@ class TaskDatasource(val androidId: String) {
         }
     }
     
-    fun setTasksAll(){
-        //todo
-    }
-    
-    fun getTasks(): ArrayList<TaskModel> {
+    fun getTasksResult(): ArrayList<TaskModel> {
         return tasks
     }
 }
