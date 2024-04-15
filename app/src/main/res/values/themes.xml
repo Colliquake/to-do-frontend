@@ -5,6 +5,4 @@
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
         <item name="colorPrimary">@color/white</item>
     </style>
-
-    <style name="Theme.Todofrontend" parent="Base.Theme.Todofrontend" />
 </resources>

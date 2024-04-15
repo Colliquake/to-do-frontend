@@ -35,10 +35,8 @@
                 app:layout_constraintStart_toEndOf="@id/task_edit_button"
                 app:layout_constraintEnd_toStartOf="@id/task_check_box"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="Grocery Shopping"
-                android:textColor="@color/black"
-                android:textSize="17sp"
-                android:textStyle="bold"/>
+                style="@style/Text.App.TaskDescription"
+                android:text="task description holder"/>
 
             <TextView
                 android:id="@+id/task_due_date"
@@ -49,7 +47,7 @@
                 app:layout_constraintTop_toBottomOf="@id/task_description"
                 app:layout_constraintBottom_toTopOf="@id/task_created_date"
                 android:text="due: xxxx"
-                android:textColor="@color/black"/>
+                style="@style/Text.App.TaskDate"/>
 
             <TextView
                 android:id="@+id/task_created_date"
@@ -60,7 +58,7 @@
                 app:layout_constraintEnd_toStartOf="@id/task_check_box"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:text="created: xxxx"
-                android:textColor="@color/black"/>
+                style="@style/Text.App.TaskDate"/>
 
             <CheckBox
                 android:id="@+id/task_check_box"
@@ -68,8 +66,7 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@id/task_delete_button"
-                app:buttonTint="@color/black"/>
+                app:layout_constraintEnd_toStartOf="@id/task_delete_button"/>
 
 
             <ImageButton

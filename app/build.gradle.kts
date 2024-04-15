@@ -58,4 +58,6 @@ dependencies {
     implementation("io.ktor:ktor-client-android:2.3.9")
     implementation("io.ktor:ktor-client-content-negotiation:2.3.9")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.3.9")
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.2.0")
 }

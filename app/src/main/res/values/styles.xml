@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Todofrontend" parent="Base.Theme.Todofrontend">
+        <item name="radioButtonStyle">@style/Widget.App.RadioButton</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="checkboxStyle">@style/Button.App.TaskCheckBox</item>
+    </style>
+
+    <style name="Widget.App.RadioButton" parent="Widget.Material3.CompoundButton.RadioButton">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.RadioButton</item>
+    </style>
+
+    <style name="ThemeOverlay.App.RadioButton" parent="">
+        <item name="colorOnSurface">@color/black</item>
+        <item name="colorPrimary">@color/black</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:paddingLeft">10dp</item>
+    </style>
+
+    <style name="Text.App.TaskDescription" parent="">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="Text.App.TaskDate" parent="">
+        <item name="android:maxLines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="Button.App.TaskCheckBox" parent="Widget.Material3.CompoundButton.CheckBox">
+        <item name="buttonTint">@color/black</item>
+    </style>
+
+    <style name="Text.App.SettingsCategory" parent="">
+        <item name="android:textSize">25sp</item>
+        <item name="android:layout_marginTop">20dp</item>
+    </style>
+
+    <style name="Button.App.SaveButton" parent="">
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:text">Save</item>
+        <item name="android:textSize">20sp</item>
+        <item name="cornerRadius">5dp</item>
+        <item name="android:backgroundTint">@color/black</item>
+    </style>
+
+</resources>
