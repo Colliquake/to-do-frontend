@@ -1,12 +1,10 @@
 package com.example.to_do_frontend.view
 
-import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -17,13 +15,14 @@ import com.example.to_do_frontend.databinding.FragmentTaskListBinding
 import com.example.to_do_frontend.model.TaskModel
 import com.example.to_do_frontend.model.TaskParameters
 import com.example.to_do_frontend.model.TaskParametersRepository
+import com.example.to_do_frontend.model.dataStore
 import com.example.to_do_frontend.view.adapter.TaskListAdapter
 import com.example.to_do_frontend.viewmodel.TaskListViewModel
 import com.example.to_do_frontend.viewmodel.TaskListViewModelFactory
 
-private val Context.dataStore by preferencesDataStore(
-    name = "settings"
-)
+//private val Context.dataStore by preferencesDataStore(
+//    name = "settings"
+//)
 
 class TaskListFragment : Fragment() {
     private var _binding: FragmentTaskListBinding? = null
@@ -81,11 +80,11 @@ class TaskListFragment : Fragment() {
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.headerSettingsButton.setOnClickListener { view ->
+        binding.headerSettingsButton.setOnClickListener { _ ->
             view.findNavController().navigate(R.id.action_taskListFragment_to_settingsFragment)
         }
         binding.headerAddButton.setOnClickListener {        //todo: get rid of this (this was just for "testing")
-            viewModel.changeFilter("true")
+            viewModel.changeFilter("false")
         }
         super.onViewCreated(view, savedInstanceState)
     }
