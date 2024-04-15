@@ -1,7 +1,6 @@
 package com.example.to_do_frontend.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,10 +19,6 @@ import com.example.to_do_frontend.view.adapter.TaskListAdapter
 import com.example.to_do_frontend.viewmodel.TaskListViewModel
 import com.example.to_do_frontend.viewmodel.TaskListViewModelFactory
 
-//private val Context.dataStore by preferencesDataStore(
-//    name = "settings"
-//)
-
 class TaskListFragment : Fragment() {
     private var _binding: FragmentTaskListBinding? = null
     private val binding get() = _binding!!
@@ -36,18 +31,6 @@ class TaskListFragment : Fragment() {
         )
     ).get(TaskListViewModel::class.java)
     }
-    
-    
-    private var tasksList: ArrayList<TaskModel> = arrayListOf<TaskModel>(
-        TaskModel(
-            _id = "_id",
-            id = "id",
-            taskDescription = "taskDesc",
-            createdDate = "date",
-            dueDate = "due date",
-            completed = false
-        )
-    )
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,7 +45,7 @@ class TaskListFragment : Fragment() {
         viewModel.tasksLiveData.observe(this, tasksObserver)
         
         val tasksParamsObserver = Observer<TaskParameters>{
-            Log.v("task params changed", it.toString())
+//            Log.v("task params changed", it.toString())
             viewModel.changeTasks(it)
         }
         
@@ -82,9 +65,6 @@ class TaskListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.headerSettingsButton.setOnClickListener { _ ->
             view.findNavController().navigate(R.id.action_taskListFragment_to_settingsFragment)
-        }
-        binding.headerAddButton.setOnClickListener {        //todo: get rid of this (this was just for "testing")
-            viewModel.changeFilter("false")
         }
         super.onViewCreated(view, savedInstanceState)
     }

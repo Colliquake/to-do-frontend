@@ -7,13 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
 import com.example.to_do_frontend.model.AndroidIdSingleton
 import com.example.to_do_frontend.model.TaskModel
 import com.example.to_do_frontend.model.TaskParameters
 import com.example.to_do_frontend.model.TaskParametersRepository
 import com.example.to_do_frontend.model.data.TaskDatasource
-import kotlinx.coroutines.launch
 
 class TaskListViewModel(application: Application, private val taskDataStore: TaskParametersRepository) : AndroidViewModel(application) {
     private var _tasksLiveData = MutableLiveData<ArrayList<TaskModel>>()
@@ -26,9 +24,6 @@ class TaskListViewModel(application: Application, private val taskDataStore: Tas
     val androidId = AndroidIdSingleton.getInstance(applicationContext).getAndroidId()
     val TaskDatasourceObject = TaskDatasource(androidId!!)
     
-    init {
-    }
-    
     private fun getTasks(params: TaskParameters){
         TaskDatasourceObject.getTasksWithParams(params)
         _tasksLiveData.postValue(TaskDatasourceObject.getTasksResult())
@@ -36,12 +31,6 @@ class TaskListViewModel(application: Application, private val taskDataStore: Tas
     
     fun changeTasks(params: TaskParameters){
         getTasks(params)
-    }
-    
-    fun changeFilter(filter: String){
-        viewModelScope.launch{
-            taskDataStore.setFilters(filter)
-        }
     }
 }
 
