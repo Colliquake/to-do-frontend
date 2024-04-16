@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    tools:context=".view.TaskListFragment">
+    tools:context=".view.TaskListFragment"
+    android:paddingTop="20dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/tasks_list_header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="17dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -37,6 +38,8 @@
             android:text="Task List"
             android:textColor="@color/black"
             android:textSize="30dp"
+            android:fontFamily="@font/inter"
+            android:textFontWeight="400"
             app:layout_constraintEnd_toStartOf="@id/header_add_button"
             app:layout_constraintStart_toEndOf="@id/header_settings_button"
             app:layout_constraintTop_toTopOf="parent" />

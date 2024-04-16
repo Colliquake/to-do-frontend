@@ -66,6 +66,9 @@ class TaskListFragment : Fragment() {
         binding.headerSettingsButton.setOnClickListener { _ ->
             view.findNavController().navigate(R.id.action_taskListFragment_to_settingsFragment)
         }
+        binding.headerAddButton.setOnClickListener { _ ->
+            view.findNavController().navigate(R.id.action_taskListFragment_to_createFragment)
+        }
         super.onViewCreated(view, savedInstanceState)
     }
     
