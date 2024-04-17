@@ -19,50 +19,48 @@ import com.example.to_do_frontend.view.adapter.TaskListAdapter
 import com.example.to_do_frontend.viewmodel.TaskListViewModel
 import com.example.to_do_frontend.viewmodel.TaskListViewModelFactory
 
-class TaskListFragment : Fragment() {
+class TaskListFragment : Fragment(), OnCheckedChangeListener {
     private var _binding: FragmentTaskListBinding? = null
     private val binding get() = _binding!!
-
+    
     private val viewModel: TaskListViewModel by lazy {
         ViewModelProvider(
-        this,
-        TaskListViewModelFactory(
-            requireActivity().application, TaskParametersRepository(requireActivity().application.dataStore)
-        )
-    ).get(TaskListViewModel::class.java)
+            this,
+            TaskListViewModelFactory(
+                requireActivity().application,
+                TaskParametersRepository(requireActivity().application.dataStore)
+            )
+        ).get(TaskListViewModel::class.java)
     }
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        val tasksObserver = Observer<ArrayList<TaskModel>> { newTasks ->
-            val adapter = TaskListAdapter(newTasks)
-            val recyclerView = binding.tasksListRecyclerView
-            recyclerView.layoutManager = LinearLayoutManager(context)
-            recyclerView.adapter = adapter
-        }
-        
-        viewModel.tasksLiveData.observe(this, tasksObserver)
-        
-        val tasksParamsObserver = Observer<TaskParameters>{
-//            Log.v("task params changed", it.toString())
-            viewModel.changeTasks(it)
-        }
-        
-        viewModel.tasksParams.observe(this, tasksParamsObserver)
     }
     
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentTaskListBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val tasksObserver = Observer<ArrayList<TaskModel>> { newTasks ->
+            val adapter = TaskListAdapter(newTasks, this)
+            val recyclerView = binding.tasksListRecyclerView
+            recyclerView.layoutManager = LinearLayoutManager(context)
+            recyclerView.adapter = adapter
+        }
+        viewModel.tasksLiveData.observe(this, tasksObserver)
+        
+        val tasksParamsObserver = Observer<TaskParameters> {
+            viewModel.changeTasks(it)
+        }
+        viewModel.tasksParams.observe(this, tasksParamsObserver)
+        
         binding.headerSettingsButton.setOnClickListener { _ ->
             view.findNavController().navigate(R.id.action_taskListFragment_to_settingsFragment)
         }
@@ -75,5 +73,10 @@ class TaskListFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+    
+    override fun onItemCheckedChange(task: TaskModel) {
+        task.completed = !task.completed
+        viewModel.updateTask(task)
     }
 }

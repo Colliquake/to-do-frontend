@@ -32,6 +32,10 @@ class TaskListViewModel(application: Application, private val taskDataStore: Tas
     fun changeTasks(params: TaskParameters){
         getTasks(params)
     }
+    
+    fun updateTask(updatedTask: TaskModel){
+        TaskDatasourceObject.updateTask(updatedTask)
+    }
 }
 
 class TaskListViewModelFactory(

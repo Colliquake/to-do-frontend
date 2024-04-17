@@ -1,9 +1,12 @@
 package com.example.to_do_frontend.view
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
@@ -39,7 +42,31 @@ class CreateFragment : Fragment() {
         return view
     }
     
+    //todo: initialize due date selected
+    //todo: implement calendar
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val textWatcher: TextWatcher = object : TextWatcher {
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            }
+            
+            override fun afterTextChanged(p0: Editable?) {
+                if (p0?.isNotEmpty() == true) {
+                    binding.toDoItemNameInput.background = ResourcesCompat.getDrawable(
+                        resources,
+                        R.drawable.bar_background_with_outline,
+                        null
+                    )
+                } else {
+                    binding.toDoItemNameInput.background =
+                        ResourcesCompat.getDrawable(resources, R.drawable.bar_background, null)
+                }
+            }
+        }
+        binding.toDoItemNameInput.addTextChangedListener(textWatcher)
+        
         binding.saveButton.setOnClickListener { _ ->
             val taskDescription = binding.toDoItemNameInput.text.toString()
             val dueDate = viewModel.formatDueDate(binding.selectDueDateInput.text.toString())
