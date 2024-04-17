@@ -19,7 +19,7 @@ import com.example.to_do_frontend.view.adapter.TaskListAdapter
 import com.example.to_do_frontend.viewmodel.TaskListViewModel
 import com.example.to_do_frontend.viewmodel.TaskListViewModelFactory
 
-class TaskListFragment : Fragment(), OnCheckedChangeListener {
+class TaskListFragment : Fragment(), OnClickedChangeListener {
     private var _binding: FragmentTaskListBinding? = null
     private val binding get() = _binding!!
     
@@ -78,5 +78,9 @@ class TaskListFragment : Fragment(), OnCheckedChangeListener {
     override fun onItemCheckedChange(task: TaskModel) {
         task.completed = !task.completed
         viewModel.updateTask(task)
+    }
+    
+    override fun onDeleteClickedChange(taskId: String) {
+        viewModel.deleteTask(taskId)
     }
 }
