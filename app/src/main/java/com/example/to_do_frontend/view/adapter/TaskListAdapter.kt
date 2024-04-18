@@ -60,5 +60,9 @@ class TaskListAdapter(var newTasks: ArrayList<TaskModel>, val listener: OnClicke
             notifyItemRemoved(position)
             notifyItemRangeChanged(position, newTasks.size)
         }
+        
+        holder.task_edit_button.setOnClickListener(){
+            listener.onEditClickedChange(tasksItem.id)
+        }
     }
 }
