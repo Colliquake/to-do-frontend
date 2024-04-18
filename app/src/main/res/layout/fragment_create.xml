@@ -72,7 +72,7 @@
         android:fontFamily="@font/inter"
         android:gravity="center_vertical"
         android:padding="11dp"
-        android:text="March 11, 2023"
+        android:text=""
         android:textFontWeight="400"
         android:textSize="16sp"
         app:layout_constraintStart_toStartOf="parent"

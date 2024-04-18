@@ -1,13 +1,16 @@
 package com.example.to_do_frontend.view
 
 import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.CalendarView
 import android.widget.EditText
 import android.widget.TextView
@@ -46,10 +49,10 @@ class EditFragment : Fragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let{
+        arguments?.let {
             taskId = it.getString("taskId").toString()
         }
-        
+
 //        binding.toDoItemNameInput.text =
     }
     
@@ -66,7 +69,7 @@ class EditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         
-        val taskObserver = Observer<ArrayList<TaskModel>> {newTask ->
+        val taskObserver = Observer<ArrayList<TaskModel>> { newTask ->
             task = newTask[0]
             view.findViewById<EditText>(R.id.to_do_item_name_input).setText(task.taskDescription)
             
@@ -98,21 +101,35 @@ class EditFragment : Fragment() {
         }
         binding.toDoItemNameInput.addTextChangedListener(textWatcher)
         
-        binding.selectDueDateInput.setOnClickListener{
+        binding.toDoItemNameInput.setOnKeyListener { v, keyCode, event ->
+            if (event.keyCode == KeyEvent.KEYCODE_ENTER) {
+                binding.toDoItemNameInput.clearFocus()
+                val imm =
+                    context?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                true
+            } else {
+                false
+            }
+        }
+        
+        binding.selectDueDateInput.setOnClickListener {
             showCalendarDialog(binding.selectDueDateInput.text)
         }
         
         binding.saveButton.setOnClickListener { _ ->
             val taskDescription = binding.toDoItemNameInput.text.toString()
             val dueDate = viewModel.formatDueDate(binding.selectDueDateInput.text.toString())
-            viewModel.updateTask(TaskModel(
-                task._id,
-                task.id,
-                taskDescription,
-                task.createdDate,
-                dueDate,
-                task.completed
-            ))
+            viewModel.updateTask(
+                TaskModel(
+                    task._id,
+                    task.id,
+                    taskDescription,
+                    task.createdDate,
+                    dueDate,
+                    task.completed
+                )
+            )
             view.findNavController().navigate(R.id.action_editFragment_to_taskListFragment)
         }
     }
