@@ -9,10 +9,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.to_do_frontend.R
 import com.example.to_do_frontend.model.TaskModel
+import com.example.to_do_frontend.view.OnClickedChangeListener
 import java.time.Instant
 
 
-class TaskListAdapter(val newTasks: ArrayList<TaskModel>) :
+class TaskListAdapter(var newTasks: ArrayList<TaskModel>, val listener: OnClickedChangeListener) :
     RecyclerView.Adapter<TaskListAdapter.TaskListViewHolder>() {
     
     class TaskListViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -44,5 +45,20 @@ class TaskListAdapter(val newTasks: ArrayList<TaskModel>) :
         
         val createdString = FormatCreatedDate(Instant.parse(tasksItem.createdDate))
         holder.task_created_date.text = createdString
+        
+        if(tasksItem.completed){
+            holder.task_check_box.isChecked = true
+        }
+        
+        holder.task_check_box.setOnClickListener(){
+            listener.onItemCheckedChange(tasksItem)
+        }
+        
+        holder.task_delete_button.setOnClickListener(){
+            listener.onDeleteClickedChange(tasksItem.id)
+            newTasks.removeAt(position)
+            notifyItemRemoved(position)
+            notifyItemRangeChanged(position, newTasks.size)
+        }
     }
 }

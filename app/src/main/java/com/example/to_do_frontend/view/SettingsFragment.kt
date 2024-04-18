@@ -36,39 +36,6 @@ class SettingsFragment : Fragment() {
     
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
-        val paramsObserver = Observer<TaskParameters> {
-            filtersRadioGroup = it.filters
-            sortByRadioGroup = it.sort_by
-            sortDateDirectionRadioGroup = it.sort_date_direction
-            
-            when(filtersRadioGroup){
-                "all" -> binding.filtersRadioGroup.check(R.id.all_button)
-                "true" -> binding.filtersRadioGroup.check(R.id.complete_button)
-                "false" -> binding.filtersRadioGroup.check(R.id.incomplete_button)
-                else -> {
-                    binding.filtersRadioGroup.check(R.id.all_button)
-                    Log.w("filtersRadioGroup", "no value found")
-                }
-            }
-            when(sortByRadioGroup){
-                "dueDate" -> binding.sortByRadioGroup.check(R.id.due_button)
-                "createdDate" -> binding.sortByRadioGroup.check(R.id.created_button)
-                else -> {
-                    binding.sortByRadioGroup.check(R.id.due_button)
-                    Log.v("sortByRadioGroup", "no value found")
-                }
-            }
-            when(sortDateDirectionRadioGroup){
-                "+" -> binding.sortDateDirectionRadioGroup.check(R.id.ascending_button)
-                "-" -> binding.sortDateDirectionRadioGroup.check(R.id.descending_button)
-                else -> {
-                    binding.sortDateDirectionRadioGroup.check(R.id.ascending_button)
-                    Log.v("directionRadioGroup", "no value found")
-                }
-            }
-        }
-        viewModel.tasksParams.observe(this, paramsObserver)
     }
     
     override fun onCreateView(
@@ -82,8 +49,41 @@ class SettingsFragment : Fragment() {
     }
     
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        val paramsObserver = Observer<TaskParameters> {
+            filtersRadioGroup = it.filters
+            sortByRadioGroup = it.sort_by
+            sortDateDirectionRadioGroup = it.sort_date_direction
+            
+            when (filtersRadioGroup) {
+                "all" -> binding.filtersRadioGroup.check(R.id.all_button)
+                "true" -> binding.filtersRadioGroup.check(R.id.complete_button)
+                "false" -> binding.filtersRadioGroup.check(R.id.incomplete_button)
+                else -> {
+                    binding.filtersRadioGroup.check(R.id.all_button)
+                    Log.w("filtersRadioGroup", "no value found")
+                }
+            }
+            when (sortByRadioGroup) {
+                "dueDate" -> binding.sortByRadioGroup.check(R.id.due_button)
+                "createdDate" -> binding.sortByRadioGroup.check(R.id.created_button)
+                else -> {
+                    binding.sortByRadioGroup.check(R.id.due_button)
+                    Log.v("sortByRadioGroup", "no value found")
+                }
+            }
+            when (sortDateDirectionRadioGroup) {
+                "+" -> binding.sortDateDirectionRadioGroup.check(R.id.ascending_button)
+                "-" -> binding.sortDateDirectionRadioGroup.check(R.id.descending_button)
+                else -> {
+                    binding.sortDateDirectionRadioGroup.check(R.id.ascending_button)
+                    Log.v("directionRadioGroup", "no value found")
+                }
+            }
+        }
+        viewModel.tasksParams.observe(this, paramsObserver)
+        
         binding.saveButton.setOnClickListener { _ ->
-            val filtersVal = when(binding.filtersRadioGroup.checkedRadioButtonId){
+            val filtersVal = when (binding.filtersRadioGroup.checkedRadioButtonId) {
                 R.id.all_button -> "all"
                 R.id.complete_button -> "true"
                 R.id.incomplete_button -> "false"
@@ -91,18 +91,19 @@ class SettingsFragment : Fragment() {
             }
             viewModel.changeFilter(filtersVal)
             
-            val sortByVal = when(binding.sortByRadioGroup.checkedRadioButtonId){
+            val sortByVal = when (binding.sortByRadioGroup.checkedRadioButtonId) {
                 R.id.due_button -> "dueDate"
                 R.id.created_button -> "createdDate"
                 else -> ""
             }
             viewModel.changeSortBy(sortByVal)
             
-            val sortDateDirectionVal = when(binding.sortDateDirectionRadioGroup.checkedRadioButtonId){
-                R.id.ascending_button -> "+"
-                R.id.descending_button -> "-"
-                else -> "+"
-            }
+            val sortDateDirectionVal =
+                when (binding.sortDateDirectionRadioGroup.checkedRadioButtonId) {
+                    R.id.ascending_button -> "+"
+                    R.id.descending_button -> "-"
+                    else -> "+"
+                }
             viewModel.changeSortDateDirection(sortDateDirectionVal)
             
             view.findNavController().navigate(R.id.action_settingsFragment_to_taskListFragment)
