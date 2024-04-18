@@ -17,40 +17,41 @@ import kotlinx.coroutines.runBlocking
 
 class TaskDatasource(val androidId: String) {
     val clientInstance = Client.getInstance()
-    val httpClient = clientInstance.getClient()!!       //todo: check if httpClient can actually be !! here
+    val httpClient =
+        clientInstance.getClient()!!
     private lateinit var tasks: ArrayList<TaskModel>
     private val serverAddress = "http://3.144.105.116:3000/"
     
-    fun getTasksWithParams(params: TaskParameters){
-        val sortBy = if(params.sort_by == ""){
+    fun getTasksWithParams(params: TaskParameters) {
+        val sortBy = if (params.sort_by == "") {
             ""
         } else {
             params.sort_date_direction + params.sort_by
         }
         
         runBlocking {
-            val httpResponse = httpClient.get(serverAddress + "/tasks"){
+            val httpResponse = httpClient.get(serverAddress + "/tasks") {
                 url {
                     parameters.append("collectionName", androidId)
                     parameters.append("completed", params.filters)
-                    if(sortBy != ""){
+                    if (sortBy != "") {
                         parameters.append("sort_by", sortBy)
                     }
                 }
             }
-            tasks = if(httpResponse.status.value == 200){
+            tasks = if (httpResponse.status.value == 200) {
                 Log.v("trace", "getTasksWithParams successful")
                 httpResponse.body()
-            } else{
+            } else {
                 Log.e("trace", "getTasksWithParams returned status 400")
                 arrayListOf<TaskModel>()
             }
         }
     }
     
-    fun getTask(taskId: String){
+    fun getTask(taskId: String) {
         runBlocking {
-            val httpResponse = httpClient.get(serverAddress + "/tasks/${taskId}"){
+            val httpResponse = httpClient.get(serverAddress + "/tasks/${taskId}") {
                 url {
                     parameters.append("collectionName", androidId)
                 }
@@ -65,55 +66,56 @@ class TaskDatasource(val androidId: String) {
         }
     }
     
-    fun createTask(newTask: CreateTaskModel){
+    fun createTask(newTask: CreateTaskModel) {
         runBlocking {
-            val httpResponse = httpClient.post(serverAddress + "/tasks"){
+            val httpResponse = httpClient.post(serverAddress + "/tasks") {
                 url {
                     parameters.append("collectionName", androidId)
                 }
                 contentType(ContentType.Application.Json)
                 setBody(newTask)
             }
-            val createTaskResponse = if(httpResponse.status.value == 201){      //todo - not doing anything with the response body yet (i put "todo" to make this easier to see)
-                Log.v("trace", "createTask successful")
-                arrayListOf(httpResponse.body())
-            } else {
-                Log.e("trace", "createTask returned status 400")
-                arrayListOf<TaskModel>()
-            }
+            val createTaskResponse =
+                if (httpResponse.status.value == 201) {
+                    Log.v("trace", "createTask successful")
+                    arrayListOf(httpResponse.body())
+                } else {
+                    Log.e("trace", "createTask returned status 400")
+                    arrayListOf<TaskModel>()
+                }
         }
     }
     
-    fun updateTask(updatedTask: TaskModel){
+    fun updateTask(updatedTask: TaskModel) {
         runBlocking {
-            val httpResponse = httpClient.put(serverAddress + "/tasks/${updatedTask.id}"){
+            val httpResponse = httpClient.put(serverAddress + "/tasks/${updatedTask.id}") {
                 url {
                     parameters.append("collectionName", androidId)
                 }
                 contentType(ContentType.Application.Json)
                 setBody(updatedTask)
             }
-            val updateTaskResponse = if(httpResponse.status.value == 200){      //todo - same thing as above
-                Log.v("trace", "updateTask successful")
-                arrayListOf(httpResponse.body())
-            } else{
-                Log.e("trace", "updateTask returned status 400")
-                arrayListOf<TaskModel>()
-            }
+            val updateTaskResponse =
+                if (httpResponse.status.value == 200) {
+                    Log.v("trace", "updateTask successful")
+                    arrayListOf(httpResponse.body())
+                } else {
+                    Log.e("trace", "updateTask returned status 400")
+                    arrayListOf<TaskModel>()
+                }
         }
     }
     
-    fun deleteTask(taskId: String){
+    fun deleteTask(taskId: String) {
         runBlocking {
-            val httpResponse = httpClient.delete(serverAddress + "/tasks/${taskId}"){
+            val httpResponse = httpClient.delete(serverAddress + "/tasks/${taskId}") {
                 url {
                     parameters.append("collectionName", androidId)
                 }
             }
-            if(httpResponse.status.value == 200){
+            if (httpResponse.status.value == 200) {
                 Log.v("trace", "deleteTask successful")
-            }
-            else{
+            } else {
                 Log.e("trace", "deleteTask returned status 400")
             }
         }

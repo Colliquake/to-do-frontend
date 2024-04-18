@@ -6,4 +6,6 @@ interface OnClickedChangeListener {
     fun onItemCheckedChange(task: TaskModel);
     
     fun onDeleteClickedChange(taskId: String);
+    
+    fun onEditClickedChange(taskId: String);
 }

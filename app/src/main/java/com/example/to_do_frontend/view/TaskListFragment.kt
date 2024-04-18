@@ -67,6 +67,7 @@ class TaskListFragment : Fragment(), OnClickedChangeListener {
         binding.headerAddButton.setOnClickListener { _ ->
             view.findNavController().navigate(R.id.action_taskListFragment_to_createFragment)
         }
+        
         super.onViewCreated(view, savedInstanceState)
     }
     
@@ -82,5 +83,10 @@ class TaskListFragment : Fragment(), OnClickedChangeListener {
     
     override fun onDeleteClickedChange(taskId: String) {
         viewModel.deleteTask(taskId)
+    }
+    
+    override fun onEditClickedChange(taskId: String) {
+        val action = TaskListFragmentDirections.actionTaskListFragmentToEditFragment(taskId)
+        view?.findNavController()?.navigate(action)
     }
 }
